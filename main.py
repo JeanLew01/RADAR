@@ -2,8 +2,6 @@ import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
-# ---- paste fast_sweep_2d here ----
-
 H, W = 50, 50
 row = W
 
