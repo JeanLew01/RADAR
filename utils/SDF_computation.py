@@ -2,9 +2,6 @@ import jax
 import jax.numpy as jnp
 from jax import lax
 
-# ----------------------------
-# 1) Vectorized FIM (FAST) 2D
-# ----------------------------
 def fim_eikonal_2d(dist0, frozen, n_iters=80, h=1.0, f=1.0):
     """
     Parallel (Jacobi/FIM) solver for |∇d| = f with Dirichlet 'frozen' nodes.
@@ -21,7 +18,6 @@ def fim_eikonal_2d(dist0, frozen, n_iters=80, h=1.0, f=1.0):
     fh = jnp.float32(f * h)
 
     def eikonal_update(d):
-        # 4-neighbors via roll (vectorized)
         up    = jnp.roll(d,  1, axis=0)
         down  = jnp.roll(d, -1, axis=0)
         left  = jnp.roll(d,  1, axis=1)
@@ -257,7 +253,6 @@ def build_composite_boundary_and_inside(H, W):
 
     inside = (inside_rect | inside_c1 | inside_ring) & (~inside_hole)
 
-    # boundary band ~ 1~2 像素
     dx = 2.0 / (W - 1); dy = 2.0 / (H - 1)
     eps = 1.5 * jnp.minimum(dx, dy)
     b_rect  = jnp.abs(sdf_rect)      <= eps
